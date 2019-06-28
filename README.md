@@ -24,7 +24,7 @@ Then we create a boolean array of the non-null values and then use that to stand
 not_null_rows = pd.notnull(df[curves]).any(axis = 1)
 X = StandardScaler().fit_transform(df.loc[not_null_rows, curves])
 ```
-We then create a Principal Component Analysis fit to create the classification odel.  
+We then create a Principal Component Analysis fit find the relevant variables.  
 ```
 #PCA fit creates
 pc = PCA(n_components = n_components).fit(X)
@@ -35,6 +35,17 @@ The transform applies the mapping (transform) to the pca fit.
 components = pd.DataFrame(data = pc.transform(X), index = df[not_null_rows].index)
 
 ```
+We then convert components to a matrix and apply the k-means clustering. 
+```
+#Convert to matrix from minibatch
+minibatch_input = components.as_matrix()
+
+##Creates new column and assigns it to MiniBatch Cluster
+df.loc[not_null_rows, curve_name] = \
+                MiniBatchKMeans(n_clusters = n_clusters,
+                batch_size = 100).fit_predict(minibatch_input)
+```
+
 ## Authors
 
 * **Preston Phillips** - [Preston5789](https://github.com/Preston5789)
