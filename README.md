@@ -1,5 +1,5 @@
 # Clustering-Electrofacies
-A clustering script for python using well log data to classify rock types using k-means clustering.
+A clustering script for python using well log data to classify rock types using k-means clustering built with the Keras package.
 
 ## The Results
 
